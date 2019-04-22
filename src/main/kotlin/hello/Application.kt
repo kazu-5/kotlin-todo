@@ -1,45 +1,71 @@
 package hello
 
+import domain.Customer
+import domain.Task
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
+import java.util.function.Consumer
 
 @SpringBootApplication
 class Application {
 
 	private val log = LoggerFactory.getLogger(Application::class.java)
 
+	@Autowired
+	lateinit var customerRepository:CustomerRepository
+
+	@Autowired
+	lateinit var taskRepository:TaskRepository
+
 	@Bean
-	fun init(repository: CustomerRepository) = CommandLineRunner {
-			// save a couple of customers
-			repository.save(Customer("Jack", "Bauer"))
-			repository.save(Customer("Chloe", "O'Brian"))
-			repository.save(Customer("Kim", "Bauer"))
-			repository.save(Customer("David", "Palmer"))
-			repository.save(Customer("Michelle", "Dessler"))
+	fun init() = CommandLineRunner {
+		customerRepository.save(Customer("Jack", "Bauer"))
+		customerRepository.save(Customer("Chloe", "O'Brian"))
+		customerRepository.save(Customer("Kim", "Bauer"))
+		customerRepository.save(Customer("David", "Palmer"))
+		customerRepository.save(Customer("Michelle", "Dessler"))
 
-			// fetch all customers
-			log.info("Customers found with findAll():")
-			log.info("-------------------------------")
-			repository.findAll().forEach { log.info(it.toString()) }
-			log.info("")
+		log.info("customers")
+		customerRepository.findAll().forEach(Consumer {log.info(it.toString()) })
 
-			// fetch an individual customer by ID
-			val customer = repository.findById(1L)
-			customer.ifPresent {
-				log.info("Customer found with findById(1L):")
-				log.info("--------------------------------")
-				log.info(it.toString())
-				log.info("")
-			}
 
-			// fetch customers by last name
-			log.info("Customer found with findByLastName('Bauer'):")
-			log.info("--------------------------------------------")
-			repository.findByLastName("Bauer").forEach { log.info(it.toString()) }
-			log.info("")
+		taskRepository.save(Task(1, "taskName"))
+		log.info("tasks")
+		taskRepository.findAll().forEach { log.info(it.toString()) }
+
+
+//			// fetch all customers
+//			log.info("Customers found with findAll():")
+//			log.info("-------------------------------")
+//			customerRepository.findAll().forEach { log.info(it.toString()) }
+//			log.info("")
+//
+//			// fetch an individual customer by ID
+//			val customer = customerRepository.findById(1L)
+//			customer.ifPresent {
+//				log.info("Customer found with findById(1L):")
+//				log.info("--------------------------------")
+//				log.info(it.toString())
+//				log.info("")
+//			}
+
+//			taskRepository.save(Task(1,"11"))
+//
+//			// fetch all customers
+//			log.info("Tasks found with findAll():")
+//			log.info("-------------------------------")
+//			taskRepository.findAll().forEach { log.info(it.toString()) }
+//			log.info("")
+//
+//			// fetch customers by last name
+//			log.info("Customer found with findByLastName('Bauer'):")
+//			log.info("--------------------------------------------")
+//			customerRepository.findByLastName("Bauer").forEach { log.info(it.toString()) }
+//			log.info("")
 	}
 
 }
