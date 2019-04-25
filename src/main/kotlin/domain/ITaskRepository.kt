@@ -1,6 +1,7 @@
 package domain
 
-interface ITaskRepository {
-    fun save(): void
+import org.springframework.stereotype.Repository
 
+interface ITaskRepository {
+    fun save(task : Task):Task
 }

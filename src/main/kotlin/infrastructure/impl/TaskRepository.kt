@@ -1,8 +1,13 @@
 package infrastructure.impl
 
+import domain.ITaskRepository
 import domain.Task
 import org.springframework.data.repository.CrudRepository
+import org.springframework.stereotype.Repository
 
-interface TaskRepository : CrudRepository<Task, Long> {
-//    fun findById(id: Long): Iterable<Task>
+@Repository
+class TaskRepository:ITaskRepository{
+    override fun  save(task : Task):Task {
+        return task
+    }
 }
