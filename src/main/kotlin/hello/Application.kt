@@ -1,7 +1,9 @@
 package hello
 
 import domain.Customer
+import domain.CustomerRepository
 import domain.Task
+import infrastructure.impl.TaskRepository
 import org.slf4j.LoggerFactory
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.CommandLineRunner
@@ -16,10 +18,10 @@ class Application {
 	private val log = LoggerFactory.getLogger(Application::class.java)
 
 	@Autowired
-	lateinit var customerRepository:CustomerRepository
+	lateinit var customerRepository: CustomerRepository
 
 	@Autowired
-	lateinit var taskRepository:TaskRepository
+	lateinit var taskRepository: TaskRepository
 
 	@Bean
 	fun init() = CommandLineRunner {
